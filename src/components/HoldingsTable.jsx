@@ -71,7 +71,9 @@ function HoldingsTable({
       >
         <div
           className={`flex items-center justify-between px-3 py-3 ${
-            isLight ? "bg-[#eef2f6] text-gray-700" : "bg-[#0d1117] text-gray-300"
+            isLight
+              ? "bg-[#eef2f6] text-gray-700"
+              : "bg-[#0d1117] text-gray-300"
           }`}
         >
           <div className="flex items-center gap-3">
@@ -106,13 +108,7 @@ function HoldingsTable({
               onClick={() => onToggle(item)}
               className={`w-full text-left px-3 py-4 border-b ${
                 isLight ? "border-gray-200" : "border-[#2b3558]"
-              } ${
-                selected
-                  ? isLight
-                    ? "bg-[#e9f1ff]"
-                    : "bg-[#102447]"
-                  : ""
-              }`}
+              } ${selected ? (isLight ? "bg-[#e9f1ff]" : "bg-[#102447]") : ""}`}
             >
               <div className="flex items-start gap-3">
                 <input
@@ -178,7 +174,8 @@ function HoldingsTable({
                               : "text-red-400"
                         }`}
                       >
-                        {stcgGain >= 0 ? "+" : "-"}${Math.abs(stcgGain).toFixed(2)}
+                        {stcgGain >= 0 ? "+" : "-"}$
+                        {Math.abs(stcgGain).toFixed(2)}
                       </div>
                       <div
                         className={`text-xs ${
@@ -201,7 +198,8 @@ function HoldingsTable({
                               : "text-red-400"
                         }`}
                       >
-                        {ltcgGain >= 0 ? "+" : "-"}${Math.abs(ltcgGain).toFixed(2)}
+                        {ltcgGain >= 0 ? "+" : "-"}$
+                        {Math.abs(ltcgGain).toFixed(2)}
                       </div>
                       <div
                         className={`text-xs ${
@@ -233,7 +231,9 @@ function HoldingsTable({
                   className="w-4 h-4 accent-blue-500 cursor-pointer"
                 />
               </th>
-              <th className="py-4 px-4 text-left whitespace-nowrap w-[240px]">Asset</th>
+              <th className="py-4 px-4 text-left whitespace-nowrap w-[240px]">
+                Asset
+              </th>
               <th className="py-4 px-4 text-right whitespace-nowrap w-[200px]">
                 <div>Holdings</div>
                 <div

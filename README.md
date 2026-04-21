@@ -54,7 +54,10 @@ Serious crypto investors hold 20–50+ coins across different exchanges. Manuall
 - 📋 **Holdings Table** — lists all your crypto assets with short-term and long-term gain/loss values clearly highlighted in green/red
 - ☑️ **Interactive Checkboxes** — tick any losing coin to instantly see how much your tax drops
 - ⚡ **Real-time Recalculation** — no page reload needed, everything updates instantly
-- 🌑 **Dark Theme UI** — clean, modern interface matching KoinX's design system
+- 🔃 **Sortable Table** — sort holdings by Short-Term gains/losses in ascending or descending order
+- 👁️ **View All / Show Less** — table starts with 5 rows and expands on demand
+- 🌗 **Light / Dark Mode** — toggle between themes with a single click
+- 📱 **Fully Responsive** — works cleanly on mobile, tablet and desktop
 
 ---
 
@@ -86,15 +89,10 @@ USER OPENS THE PAGE
         ▼
 App.jsx loads
         │
-        ├──→ API Call 1 ──→ Get Capital Gains Data
-        │                        │
-        │                        ▼
-        │                 Store in capitalGains state
-        │
-        ├──→ API Call 2 ──→ Get Holdings Data
-        │                        │
-        │                        ▼
-        │                 Store in holdings state
+        └──→ Reads mockData.json
+                    │
+                    ├──→ Store capitalGains in state
+                    └──→ Store holdings in state
         │
         ▼
     Render UI
@@ -135,6 +133,9 @@ Numbers go back to original
 ```
 App.jsx  ← Main component, holds all state and data
     │
+    ├── Disclaimer
+    │       └── Collapsible info banner with notes & disclaimers
+    │
     ├── CapitalGainsCard (Pre Harvesting)
     │       └── Receives original capitalGains data
     │       └── Static — never changes
@@ -154,16 +155,16 @@ App.jsx  ← Main component, holds all state and data
 
 ## 🗃️ State Management
 
-The app maintains 3 pieces of state:
+The app maintains 4 pieces of state:
 
 | State | Type | Purpose |
 |-------|------|---------|
-| `capitalGains` | Object | Original tax data from API — never mutated |
-| `holdings` | Array | All coin holdings from API — never mutated |
+| `capitalGains` | Object | Original tax data from mock data — never mutated |
+| `holdings` | Array | All coin holdings from mock data — never mutated |
 | `selectedCoins` | Array | Coins the user has ticked — changes on every interaction |
+| `theme` | String | Current UI theme — `"dark"` or `"light"` |
 
 Every time `selectedCoins` changes → app recalculates → After Harvesting card re-renders automatically.
-
 
 ---
 
@@ -171,11 +172,11 @@ Every time `selectedCoins` changes → app recalculates → After Harvesting car
 
 | Technology | Purpose |
 |-----------|---------|
-| React 18 | UI framework |
+| React 19 | UI framework |
 | Vite | Build tool and dev server |
+| Tailwind CSS v3 | Utility-first styling |
 | useState / useEffect | State management and lifecycle |
-| Axios | API calls |
-| CSS-in-JS (inline styles) | Component styling |
+| mockData.json | Local mock data simulating API response |
 
 ---
 
@@ -184,16 +185,17 @@ Every time `selectedCoins` changes → app recalculates → After Harvesting car
 ```
 src/
 ├── components/
-│   ├── CapitalGainsCard.jsx   → Reusable card for pre & post harvesting
-│   └── HoldingsTable.jsx      → Table with all coins and checkboxes
+│   ├── CapitalGainsCard.jsx   → Reusable card for Pre & After Harvesting
+│   ├── Disclaimer.jsx         → Collapsible disclaimer banner
+│   └── HoldingsTable.jsx      → Holdings table with sorting, checkboxes & View all
 ├── data/
-│   └── mockData.json          → Mock API data for development
-├── hooks/
-│   └── useCapitalGains.js     → Custom hook for data fetching
-├── utils/
-│   └── calculatePostHarvesting.js  → Core tax calculation logic
-├── App.jsx                    → Root component, manages all state
-└── index.css                  → Global styles and dark theme
+│   └── mockData.json          → Mock capital gains and holdings data
+├── assets/
+│   └── hero.png               → Static assets
+├── App.jsx                    → Root component, manages all state & tax logic
+├── App.css                    → Component-level styles
+├── index.css                  → Global styles (Tailwind directives)
+└── main.jsx                   → React entry point
 ```
 
 ---
@@ -202,10 +204,10 @@ src/
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/vini4721/koinX.git
 
 # Navigate into the project
-cd koinx-tax-harvesting
+cd koinX
 
 # Install dependencies
 npm install
@@ -227,3 +229,9 @@ Building this project gave me a deep understanding of:
 - **Real-world financial logic** — understanding short-term vs long-term capital gains, how losses offset profits, and the actual business value behind the UI
 - **Data flow in React** — how data flows down via props and events flow up via callback functions
 
+---
+
+## 👨‍💻 Built By
+
+Anurag Singh
+anurag.singh@justdial.com
