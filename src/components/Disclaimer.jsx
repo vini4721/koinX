@@ -1,25 +1,40 @@
 import { useState } from "react";
 
-function Disclaimer() {
+function Disclaimer({ theme = "dark" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const isLight = theme === "light";
 
   return (
-    <div className="border border-blue-500 rounded-xl mb-6 bg-[#1a2035]">
+    <div
+      className={`border rounded-xl mb-6 ${
+        isLight ? "border-blue-300 bg-[#f8fbff]" : "border-blue-500 bg-[#1a2035]"
+      }`}
+    >
       {/* Header Row */}
       <button
         className="w-full flex items-center justify-between px-4 py-3"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex items-center gap-2 text-sm font-semibold">
-          <span className="text-blue-400">ℹ️</span>
+        <div
+          className={`flex items-center gap-2 text-sm font-semibold ${
+            isLight ? "text-[#1f2937]" : "text-white"
+          }`}
+        >
+          <span className={isLight ? "text-blue-500" : "text-blue-400"}>ℹ️</span>
           <span>Important Notes & Disclaimers</span>
         </div>
-        <span className="text-gray-400 text-lg">{isOpen ? "▲" : "▼"}</span>
+        <span className={`${isLight ? "text-gray-500" : "text-gray-400"} text-lg`}>
+          {isOpen ? "▲" : "▼"}
+        </span>
       </button>
 
       {/* Content — only shows when open */}
       {isOpen && (
-        <ul className="px-6 pb-4 text-sm text-gray-300 space-y-2 list-disc">
+        <ul
+          className={`px-6 pb-4 text-sm space-y-2 list-disc ${
+            isLight ? "text-gray-600" : "text-gray-300"
+          }`}
+        >
           <li>
             Tax-loss harvesting is currently not allowed under Indian tax
             regulations. Please consult your tax advisor before making any

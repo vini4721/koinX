@@ -8,6 +8,7 @@ function App() {
   const [capitalGains, setCapitalGains] = useState(null);
   const [holdings, setHoldings] = useState([]);
   const [selectedCoins, setSelectedCoins] = useState([]);
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     setCapitalGains(mockData.capitalGains);
@@ -35,7 +36,12 @@ function App() {
     }
   };
 
-  if (!capitalGains) return <p className="text-white">Loading...</p>;
+  if (!capitalGains)
+    return (
+      <p className={theme === "light" ? "text-[#1f2937]" : "text-white"}>
+        Loading...
+      </p>
+    );
 
   // Calculate post harvesting gains
   const postGains = {
@@ -73,10 +79,19 @@ function App() {
     postGains.ltcg.losses;
 
   const savings = Math.max(0, preTotal - postTotal);
+  const isLight = theme === "light";
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0d1117] text-white">
-      <div className="bg-[#1a2035] px-4 md:px-8 py-4 flex w-full items-center">
+    <div
+      className={`min-h-screen w-full max-w-full overflow-x-hidden ${
+        isLight ? "bg-[#dbe1e8] text-[#1f2937]" : "bg-[#0d1117] text-white"
+      }`}
+    >
+      <div
+        className={`px-4 md:px-8 py-4 flex w-full items-center justify-between ${
+          isLight ? "bg-[#f4f6f8]" : "bg-[#1a2035]"
+        }`}
+      >
         <div className="inline-flex items-end gap-0.5 whitespace-nowrap leading-none">
           <span className="font-bold text-2xl" style={{ color: "#3b82f6" }}>
             Koin
@@ -93,6 +108,18 @@ function App() {
           </span>
           <span className="text-gray-400 text-xs -translate-y-2">®</span>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setTheme((prev) => (prev === "light" ? "dark" : "light"))}
+          className={`text-xs md:text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+            isLight
+              ? "border-[#c9d1db] bg-white text-[#1f2937]"
+              : "border-[#334155] bg-[#0d1117] text-gray-200"
+          }`}
+        >
+          {isLight ? "Dark" : "Light"} mode
+        </button>
       </div>
 
       {/* Main Content */}
@@ -105,7 +132,7 @@ function App() {
 
           {/* How it works with tooltip */}
           <div className="relative group">
-            <a href="#" className="text-blue-400 text-sm underline">
+            <a href="#" className="text-blue-500 text-sm underline">
               How it works?
             </a>
 
@@ -130,7 +157,7 @@ function App() {
         </div>
 
         {/* Disclaimer */}
-        <Disclaimer />
+        <Disclaimer theme={theme} />
 
         {/* Two Cards */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -138,6 +165,7 @@ function App() {
             title="Pre Harvesting"
             gains={capitalGains}
             isBlue={false}
+            theme={theme}
           />
           <CapitalGainsCard
             title="After Harvesting"
@@ -145,6 +173,7 @@ function App() {
             isBlue={true}
             savings={savings}
             selectedCoinCount={selectedCoins.length}
+            theme={theme}
           />
         </div>
 
@@ -154,6 +183,7 @@ function App() {
           selectedCoins={selectedCoins}
           onToggle={handleToggle}
           onSelectAll={handleSelectAll}
+          theme={theme}
         />
       </div>
     </div>
