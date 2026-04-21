@@ -11,7 +11,17 @@
   },
 
   "holdings": [
-      {
+            {
+    "coin": "BTC",
+    "coinName": "Bitcoin",
+    "logo": "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
+    "currentPrice": 5000000,
+    "totalHolding": 0.5,
+    "averageBuyPrice": 6000000,
+    "stcg": { "balance": 0.5, "gain": -50000 },
+    "ltcg": { "balance": 0, "gain": 0 }
+    },
+        {
         "coin": "USDC",
         "coinName": "USDC",
         "logo": "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694",

@@ -64,8 +64,163 @@ function HoldingsTable({
     >
       <h2 className="text-lg font-bold mb-4 md:mb-6">Holdings</h2>
 
-      <div className="overflow-x-auto overflow-y-hidden pb-2 -mx-4 md:-mx-8">
-        <table className="w-full min-w-[780px] text-sm border-separate border-spacing-y-0">
+      <div
+        className={`md:hidden rounded-lg border overflow-hidden ${
+          isLight ? "border-gray-200 bg-white" : "border-[#2b3558] bg-[#0d1117]"
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between px-3 py-3 ${
+            isLight ? "bg-[#eef2f6] text-gray-700" : "bg-[#0d1117] text-gray-300"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={areAllSelected}
+              onChange={onSelectAll}
+              className="w-4 h-4 accent-blue-500 cursor-pointer"
+            />
+            <span className="text-sm font-semibold">Asset</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleSort}
+            className="text-sm font-semibold"
+          >
+            {sortConfig.direction === "desc" ? "▼" : "▲"} Short-Term
+          </button>
+        </div>
+
+        {visibleHoldings.map((item) => {
+          const selected = isSelected(item);
+          const stcgGain = item.stcg?.gain ?? 0;
+          const ltcgGain = item.ltcg?.gain ?? 0;
+          const totalHolding = item.totalHolding ?? 0;
+          const avgBuyPrice = item.averageBuyPrice ?? 0;
+
+          return (
+            <button
+              key={`${item.coin}-${item.coinName}`}
+              type="button"
+              onClick={() => onToggle(item)}
+              className={`w-full text-left px-3 py-4 border-b ${
+                isLight ? "border-gray-200" : "border-[#2b3558]"
+              } ${
+                selected
+                  ? isLight
+                    ? "bg-[#e9f1ff]"
+                    : "bg-[#102447]"
+                  : ""
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={!!selected}
+                  onChange={() => onToggle(item)}
+                  onClick={(e) => e.stopPropagation()}
+                  className="mt-1 w-4 h-4 accent-blue-500 cursor-pointer"
+                />
+
+                <img
+                  src={item.logo}
+                  alt={item.coin}
+                  width={30}
+                  height={30}
+                  className="rounded-full flex-shrink-0"
+                  onError={(e) => (e.target.src = "https://placehold.co/30x30")}
+                />
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div
+                        className={`truncate font-semibold ${
+                          isLight ? "text-[#1f2937]" : "text-white"
+                        }`}
+                      >
+                        {item.coinName}
+                      </div>
+                      <div
+                        className={`text-xs mt-0.5 ${
+                          isLight ? "text-gray-500" : "text-gray-400"
+                        }`}
+                      >
+                        {item.coin}
+                      </div>
+                    </div>
+
+                    <div className="text-right whitespace-nowrap">
+                      <div className="font-semibold">
+                        {totalHolding.toFixed(4)} {item.coin}
+                      </div>
+                      <div
+                        className={`text-xs mt-0.5 ${
+                          isLight ? "text-gray-500" : "text-gray-400"
+                        }`}
+                      >
+                        ${avgBuyPrice.toFixed(2)}/{item.coin}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div>
+                      <div
+                        className={`font-semibold ${
+                          stcgGain >= 0
+                            ? isLight
+                              ? "text-emerald-600"
+                              : "text-green-400"
+                            : isLight
+                              ? "text-rose-600"
+                              : "text-red-400"
+                        }`}
+                      >
+                        {stcgGain >= 0 ? "+" : "-"}${Math.abs(stcgGain).toFixed(2)}
+                      </div>
+                      <div
+                        className={`text-xs ${
+                          isLight ? "text-gray-500" : "text-gray-400"
+                        }`}
+                      >
+                        Short-Term
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      <div
+                        className={`font-semibold ${
+                          ltcgGain >= 0
+                            ? isLight
+                              ? "text-emerald-600"
+                              : "text-green-400"
+                            : isLight
+                              ? "text-rose-600"
+                              : "text-red-400"
+                        }`}
+                      >
+                        {ltcgGain >= 0 ? "+" : "-"}${Math.abs(ltcgGain).toFixed(2)}
+                      </div>
+                      <div
+                        className={`text-xs ${
+                          isLight ? "text-gray-500" : "text-gray-400"
+                        }`}
+                      >
+                        Long-Term
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="hidden md:block overflow-x-auto overflow-y-hidden pb-2 -mx-4 md:-mx-8">
+        <table className="w-full min-w-[980px] table-fixed text-sm border-separate border-spacing-y-0">
           <thead>
             <tr
               className={`${isLight ? "text-gray-700 bg-[#eef2f6]" : "text-gray-400 bg-[#0d1117]"}`}
@@ -78,8 +233,8 @@ function HoldingsTable({
                   className="w-4 h-4 accent-blue-500 cursor-pointer"
                 />
               </th>
-              <th className="py-4 px-4 text-left whitespace-nowrap">Asset</th>
-              <th className="py-4 px-4 text-right whitespace-nowrap">
+              <th className="py-4 px-4 text-left whitespace-nowrap w-[240px]">Asset</th>
+              <th className="py-4 px-4 text-right whitespace-nowrap w-[200px]">
                 <div>Holdings</div>
                 <div
                   className={`text-xs ${isLight ? "text-gray-500" : "text-gray-500"}`}
@@ -87,24 +242,24 @@ function HoldingsTable({
                   Avg Buy Price
                 </div>
               </th>
-              <th className="py-4 px-4 text-right whitespace-nowrap">
+              <th className="py-4 px-4 text-right whitespace-nowrap w-[150px]">
                 Current Price
               </th>
               <th
-                className="py-4 px-4 text-right cursor-pointer select-none whitespace-nowrap"
+                className="py-4 px-4 text-right cursor-pointer select-none whitespace-nowrap w-[190px]"
                 onClick={handleSort}
               >
                 <div className="flex items-center justify-end gap-1">
-                  <span className="text-xs">
+                  <span className="inline-flex w-3 justify-center text-xs">
                     {sortConfig.direction === "desc" ? "▼" : "▲"}
                   </span>
                   <span>Short-Term</span>
                 </div>
               </th>
-              <th className="py-4 px-4 text-right whitespace-nowrap">
+              <th className="py-4 px-4 text-right whitespace-nowrap w-[190px]">
                 Long-Term
               </th>
-              <th className="py-4 px-4 text-right rounded-tr-lg rounded-br-lg whitespace-nowrap">
+              <th className="py-4 px-4 text-right rounded-tr-lg rounded-br-lg whitespace-nowrap w-[180px]">
                 Amount to Sell
               </th>
             </tr>
