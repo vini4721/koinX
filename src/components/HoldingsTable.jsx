@@ -13,7 +13,13 @@ const formatFullPrice = (price) => {
   })}`;
 };
 
-function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme = "dark" }) {
+function HoldingsTable({
+  holdings,
+  selectedCoins,
+  onToggle,
+  onSelectAll,
+  theme = "dark",
+}) {
   const [showAllRows, setShowAllRows] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [sortConfig, setSortConfig] = useState({
@@ -53,13 +59,17 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
   const rowCellClass = `py-6 px-4 border-b ${isLight ? "border-gray-200" : "border-[#2b3558]"}`;
 
   return (
-    <div className={`${isLight ? "bg-white" : "bg-[#1a2035]"} rounded-xl p-4 md:p-8`}>
+    <div
+      className={`${isLight ? "bg-white" : "bg-[#1a2035]"} rounded-xl p-4 md:p-8`}
+    >
       <h2 className="text-lg font-bold mb-4 md:mb-6">Holdings</h2>
 
       <div className="overflow-x-auto overflow-y-hidden pb-2 -mx-4 md:-mx-8">
         <table className="w-full min-w-[780px] text-sm border-separate border-spacing-y-0">
           <thead>
-            <tr className={`${isLight ? "text-gray-700 bg-[#eef2f6]" : "text-gray-400 bg-[#0d1117]"}`}>
+            <tr
+              className={`${isLight ? "text-gray-700 bg-[#eef2f6]" : "text-gray-400 bg-[#0d1117]"}`}
+            >
               <th className="py-4 px-4 text-left rounded-tl-lg rounded-bl-lg w-10">
                 <input
                   type="checkbox"
@@ -71,7 +81,11 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
               <th className="py-4 px-4 text-left whitespace-nowrap">Asset</th>
               <th className="py-4 px-4 text-right whitespace-nowrap">
                 <div>Holdings</div>
-                <div className={`text-xs ${isLight ? "text-gray-500" : "text-gray-500"}`}>Avg Buy Price</div>
+                <div
+                  className={`text-xs ${isLight ? "text-gray-500" : "text-gray-500"}`}
+                >
+                  Avg Buy Price
+                </div>
               </th>
               <th className="py-4 px-4 text-right whitespace-nowrap">
                 Current Price
@@ -144,10 +158,14 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
                         }
                       />
                       <div>
-                        <div className={`font-semibold ${isLight ? "text-[#1f2937]" : "text-white"}`}>
+                        <div
+                          className={`font-semibold ${isLight ? "text-[#1f2937]" : "text-white"}`}
+                        >
                           {item.coinName}
                         </div>
-                        <div className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}>
+                        <div
+                          className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}
+                        >
                           {item.coin}
                         </div>
                       </div>
@@ -158,7 +176,9 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
                     <div className="font-medium">
                       {totalHolding.toFixed(4)} {item.coin}
                     </div>
-                    <div className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}>
+                    <div
+                      className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}
+                    >
                       ${avgBuyPrice.toFixed(2)}/{item.coin}
                     </div>
                   </td>
@@ -203,7 +223,9 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
                       {stcgGain >= 0 ? "+" : "-"}$
                       {Math.abs(stcgGain).toFixed(2)}
                     </div>
-                    <div className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}>
+                    <div
+                      className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}
+                    >
                       {stcgBalance.toFixed(4)} {item.coin}
                     </div>
                   </td>
@@ -223,7 +245,9 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll, theme =
                       {ltcgGain >= 0 ? "+" : "-"}$
                       {Math.abs(ltcgGain).toFixed(2)}
                     </div>
-                    <div className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}>
+                    <div
+                      className={`text-xs mt-0.5 ${isLight ? "text-gray-500" : "text-gray-400"}`}
+                    >
                       {ltcgBalance.toFixed(4)} {item.coin}
                     </div>
                   </td>

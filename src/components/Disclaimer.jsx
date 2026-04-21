@@ -7,7 +7,9 @@ function Disclaimer({ theme = "dark" }) {
   return (
     <div
       className={`border rounded-xl mb-6 ${
-        isLight ? "border-blue-300 bg-[#f8fbff]" : "border-blue-500 bg-[#1a2035]"
+        isLight
+          ? "border-blue-300 bg-[#f8fbff]"
+          : "border-blue-500 bg-[#1a2035]"
       }`}
     >
       {/* Header Row */}
@@ -20,10 +22,14 @@ function Disclaimer({ theme = "dark" }) {
             isLight ? "text-[#1f2937]" : "text-white"
           }`}
         >
-          <span className={isLight ? "text-blue-500" : "text-blue-400"}>ℹ️</span>
+          <span className={isLight ? "text-blue-500" : "text-blue-400"}>
+            ℹ️
+          </span>
           <span>Important Notes & Disclaimers</span>
         </div>
-        <span className={`${isLight ? "text-gray-500" : "text-gray-400"} text-lg`}>
+        <span
+          className={`${isLight ? "text-gray-500" : "text-gray-400"} text-lg`}
+        >
           {isOpen ? "▲" : "▼"}
         </span>
       </button>

@@ -111,7 +111,9 @@ function App() {
 
         <button
           type="button"
-          onClick={() => setTheme((prev) => (prev === "light" ? "dark" : "light"))}
+          onClick={() =>
+            setTheme((prev) => (prev === "light" ? "dark" : "light"))
+          }
           className={`text-xs md:text-sm px-3 py-1.5 rounded-lg border transition-colors ${
             isLight
               ? "border-[#c9d1db] bg-white text-[#1f2937]"
