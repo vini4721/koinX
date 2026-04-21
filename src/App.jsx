@@ -92,22 +92,11 @@ function App() {
           isLight ? "bg-[#f4f6f8]" : "bg-[#1a2035]"
         }`}
       >
-        <div className="inline-flex items-end gap-0.5 whitespace-nowrap leading-none">
-          <span className="font-bold text-2xl" style={{ color: "#3b82f6" }}>
-            Koin
-          </span>
-          <span
-            className="font-bold text-2xl"
-            style={{
-              background: "linear-gradient(135deg, #f97316, #f59e0b)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            X
-          </span>
-          <span className="text-gray-400 text-xs -translate-y-2">®</span>
-        </div>
+        <img
+          src="https://www.koinx.com/_next/static/media/Logo.cd3089a4.svg"
+          alt="KoinX"
+          className="h-8 w-auto md:h-9"
+        />
 
         <button
           type="button"
