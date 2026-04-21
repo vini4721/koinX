@@ -75,31 +75,33 @@ function App() {
   const savings = Math.max(0, preTotal - postTotal);
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-white">
-      {/* Navbar */}
-      {/* Navbar */}
-      <div className="bg-[#1a2035] px-8 py-4 flex items-center">
-        <span className="font-bold text-2xl" style={{ color: "#3b82f6" }}>
-          Koin
-        </span>
-        <span
-          className="font-bold text-2xl"
-          style={{
-            background: "linear-gradient(135deg, #f97316, #f59e0b)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          X
-        </span>
-        <span className="text-gray-400 text-xs align-super ml-0.5">®</span>
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0d1117] text-white">
+      <div className="bg-[#1a2035] px-4 md:px-8 py-4 flex w-full items-center">
+        <div className="inline-flex items-end gap-0.5 whitespace-nowrap leading-none">
+          <span className="font-bold text-2xl" style={{ color: "#3b82f6" }}>
+            Koin
+          </span>
+          <span
+            className="font-bold text-2xl"
+            style={{
+              background: "linear-gradient(135deg, #f97316, #f59e0b)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            X
+          </span>
+          <span className="text-gray-400 text-xs -translate-y-2">®</span>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="w-full px-8 py-8">
+      <div className="w-full max-w-full px-4 md:px-8 py-6 md:py-8 overflow-x-hidden">
         {/* Page Header */}
-        <div className="flex items-center gap-4 mb-6 relative">
-          <h1 className="text-2xl font-bold">Tax Harvesting</h1>
+        <div className="flex flex-col items-start gap-1 mb-4 md:mb-6 md:flex-row md:items-center md:gap-4 relative min-w-0">
+          <h1 className="text-xl md:text-2xl font-bold leading-tight">
+            Tax Harvesting
+          </h1>
 
           {/* How it works with tooltip */}
           <div className="relative group">

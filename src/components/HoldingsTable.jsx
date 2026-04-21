@@ -16,11 +16,12 @@ const formatFullPrice = (price) => {
 function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
   const [showAllRows, setShowAllRows] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const visibleRowCount = 5;
   const [sortConfig, setSortConfig] = useState({
     key: "stcg",
     direction: "desc",
   });
+
+  const visibleRowCount = 5;
 
   const isSelected = (item) =>
     selectedCoins.find(
@@ -43,6 +44,7 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
   const visibleHoldings = showAllRows
     ? sortedHoldings
     : sortedHoldings.slice(0, visibleRowCount);
+
   const hasMoreRows = sortedHoldings.length > visibleRowCount;
 
   const areAllSelected =
@@ -50,12 +52,11 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
   const rowCellClass = "py-6 px-4 border-b border-[#2b3558]";
 
   return (
-    <div className="bg-[#1a2035] rounded-xl p-8">
-      <h2 className="text-lg font-bold mb-6">Holdings</h2>
+    <div className="bg-[#1a2035] rounded-xl p-4 md:p-8">
+      <h2 className="text-lg font-bold mb-4 md:mb-6">Holdings</h2>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm border-separate border-spacing-y-0">
-          {/* Header */}
+      <div className="overflow-x-auto overflow-y-hidden pb-2 -mx-4 md:-mx-8">
+        <table className="w-full min-w-[780px] text-sm border-separate border-spacing-y-0">
           <thead>
             <tr className="text-gray-400 bg-[#0d1117]">
               <th className="py-4 px-4 text-left rounded-tl-lg rounded-bl-lg w-10">
@@ -66,18 +67,14 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                   className="w-4 h-4 accent-blue-500 cursor-pointer"
                 />
               </th>
-
               <th className="py-4 px-4 text-left whitespace-nowrap">Asset</th>
-
               <th className="py-4 px-4 text-right whitespace-nowrap">
                 <div>Holdings</div>
                 <div className="text-xs text-gray-500">Avg Buy Price</div>
               </th>
-
               <th className="py-4 px-4 text-right whitespace-nowrap">
                 Current Price
               </th>
-
               <th
                 className="py-4 px-4 text-right cursor-pointer select-none whitespace-nowrap"
                 onClick={handleSort}
@@ -89,20 +86,17 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                   <span>Short-Term</span>
                 </div>
               </th>
-
               <th className="py-4 px-4 text-right whitespace-nowrap">
                 Long-Term
               </th>
-
               <th className="py-4 px-4 text-right rounded-tr-lg rounded-br-lg whitespace-nowrap">
                 Amount to Sell
               </th>
             </tr>
           </thead>
 
-          {/* Body */}
           <tbody>
-            {visibleHoldings.map((item, index) => {
+            {visibleHoldings.map((item) => {
               const selected = isSelected(item);
               const stcgGain = item.stcg?.gain ?? 0;
               const ltcgGain = item.ltcg?.gain ?? 0;
@@ -110,10 +104,11 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
               const ltcgBalance = item.ltcg?.balance ?? 0;
               const totalHolding = item.totalHolding ?? 0;
               const currentPrice = item.currentPrice ?? 0;
+              const avgBuyPrice = item.averageBuyPrice ?? 0;
 
               return (
                 <tr
-                  key={index}
+                  key={`${item.coin}-${item.coinName}`}
                   onClick={() => onToggle(item)}
                   className={`cursor-pointer transition-all duration-150 hover:bg-[#1e3a5f]/40 ${
                     selected
@@ -121,7 +116,6 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                       : ""
                   }`}
                 >
-                  {/* Checkbox */}
                   <td className={rowCellClass}>
                     <input
                       type="checkbox"
@@ -132,7 +126,6 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                     />
                   </td>
 
-                  {/* Asset */}
                   <td className={rowCellClass}>
                     <div className="flex items-center gap-4">
                       <img
@@ -142,7 +135,7 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                         height={36}
                         className="rounded-full flex-shrink-0"
                         onError={(e) =>
-                          (e.target.src = "https://via.placeholder.com/36")
+                          (e.target.src = "https://placehold.co/36x36")
                         }
                       />
                       <div>
@@ -156,28 +149,27 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                     </div>
                   </td>
 
-                  {/* Holdings + Avg Buy Price */}
                   <td className={`${rowCellClass} text-right`}>
                     <div className="font-medium">
                       {totalHolding.toFixed(4)} {item.coin}
                     </div>
                     <div className="text-xs text-gray-400 mt-0.5">
-                      ${currentPrice.toLocaleString()}/{item.coin}
+                      ${avgBuyPrice.toFixed(2)}/{item.coin}
                     </div>
                   </td>
 
-                  {/* Current Price with tooltip */}
                   <td className={`${rowCellClass} text-right`}>
                     <div
                       className="relative inline-block"
-                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseEnter={() =>
+                        setHoveredIndex(`${item.coin}-${item.coinName}`)
+                      }
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
                       <span className="cursor-pointer font-medium">
                         {formatShortPrice(currentPrice)}
                       </span>
-
-                      {hoveredIndex === index && (
+                      {hoveredIndex === `${item.coin}-${item.coinName}` && (
                         <div
                           className="absolute bottom-8 left-1/2 -translate-x-1/2
                                      bg-white text-black text-xs rounded-lg px-3 py-2
@@ -191,7 +183,6 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                     </div>
                   </td>
 
-                  {/* Short Term */}
                   <td className={`${rowCellClass} text-right`}>
                     <div
                       className={`font-semibold ${stcgGain >= 0 ? "text-green-400" : "text-red-400"}`}
@@ -204,7 +195,6 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                     </div>
                   </td>
 
-                  {/* Long Term */}
                   <td className={`${rowCellClass} text-right`}>
                     <div
                       className={`font-semibold ${ltcgGain >= 0 ? "text-green-400" : "text-red-400"}`}
@@ -217,7 +207,6 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
                     </div>
                   </td>
 
-                  {/* Amount to Sell */}
                   <td
                     className={`${rowCellClass} text-right text-gray-400 whitespace-nowrap`}
                   >
@@ -231,7 +220,7 @@ function HoldingsTable({ holdings, selectedCoins, onToggle, onSelectAll }) {
       </div>
 
       {hasMoreRows && (
-        <div className="mt-6">
+        <div className="mt-4">
           <button
             type="button"
             onClick={() => setShowAllRows((prev) => !prev)}
